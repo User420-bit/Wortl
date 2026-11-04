@@ -1,0 +1,10 @@
+# macOS auf exFAT
+._*
+.DS_Store
+
+# Abhängigkeiten, Build, Geheimnisse
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
