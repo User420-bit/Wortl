@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Wortl – Wörter raten mit 5 bis 8 Buchstaben</title>
+<meta name="description" content="Deutsches Wortratespiel: Errate das Wort in sechs Versuchen. Wortlänge von 5 bis 8 Buchstaben wählbar.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#f3efe6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#15140f" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%232f6b4a'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' text-anchor='middle' fill='%23f3efe6'%3EW%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#board">Zum Spielfeld</a>
+
+<header class="top">
+  <div class="brand">
+    <h1>Wortl</h1>
+    <p class="tagline">Sechs Versuche. Ein Wort.</p>
+  </div>
+  <nav class="actions" aria-label="Spielmenü">
+    <button type="button" class="icon-btn" data-open="help" aria-label="Spielregeln">?</button>
+    <button type="button" class="icon-btn" data-open="stats" aria-label="Statistik">
+      <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><rect x="2" y="9" width="3" height="7"/><rect x="7.5" y="4" width="3" height="12"/><rect x="13" y="7" width="3" height="9"/></svg>
+    </button>
+  </nav>
+</header>
+
+<main>
+  <section class="settings" aria-label="Einstellungen">
+    <fieldset class="segment" id="length">
+      <legend class="sr-only">Wortlänge</legend>
+      <label><input type="radio" name="len" value="5"><span><b>5</b><small>Leicht</small></span></label>
+      <label><input type="radio" name="len" value="6"><span><b>6</b><small>Mittel</small></span></label>
+      <label><input type="radio" name="len" value="7"><span><b>7</b><small>Schwer</small></span></label>
+      <label><input type="radio" name="len" value="8"><span><b>8</b><small>Experte</small></span></label>
+    </fieldset>
+    <fieldset class="segment segment--mode" id="mode">
+      <legend class="sr-only">Modus</legend>
+      <label><input type="radio" name="mode" value="daily"><span>Wort des Tages</span></label>
+      <label><input type="radio" name="mode" value="random"><span>Zufall</span></label>
+    </fieldset>
+  </section>
+
+  <p class="status" id="status"></p>
+
+  <div class="board" id="board" role="grid" aria-label="Spielfeld"></div>
+
+  <p class="toast" id="toast" role="status" aria-live="polite"></p>
+
+  <div class="keyboard" id="keyboard" aria-label="Bildschirmtastatur"></div>
+
+  <noscript><p class="noscript">Wortl braucht JavaScript. Ohne läuft hier nichts, es wird aber auch nichts geladen oder gesendet.</p></noscript>
+</main>
+
+<footer class="foot">
+  <p>Wörter aus der <a href="https://github.com/davidak/wortliste">Wortliste von davidak</a>, Häufigkeiten aus <a href="https://github.com/rspeer/wordfreq">wordfreq</a>. Keine Cookies, keine Server, Stand nur in diesem Browser.</p>
+</footer>
+
+<dialog id="dlg-help" class="dialog" aria-labelledby="help-title">
+  <form method="dialog" class="dialog__inner">
+    <header><h2 id="help-title">So geht es</h2><button type="submit" class="icon-btn" aria-label="Schliessen">×</button></header>
+    <p>Errate das Wort in sechs Versuchen. Jeder Versuch muss ein gültiges deutsches Wort mit der gewählten Länge sein.</p>
+    <p>Nach jedem Versuch färben sich die Kacheln:</p>
+    <div class="example" aria-hidden="true">
+      <div class="row" style="--n:5">
+        <span class="tile tile--correct">W</span><span class="tile">O</span><span class="tile">L</span><span class="tile">K</span><span class="tile">E</span>
+      </div>
+    </div>
+    <p><strong>W</strong> steht an der richtigen Stelle.</p>
+    <div class="example" aria-hidden="true">
+      <div class="row" style="--n:5">
+        <span class="tile">T</span><span class="tile tile--present">I</span><span class="tile">S</span><span class="tile">C</span><span class="tile">H</span>
+      </div>
+    </div>
+    <p><strong>I</strong> kommt vor, aber an anderer Stelle.</p>
+    <div class="example" aria-hidden="true">
+      <div class="row" style="--n:5">
+        <span class="tile">B</span><span class="tile">L</span><span class="tile">U</span><span class="tile tile--absent">M</span><span class="tile">E</span>
+      </div>
+    </div>
+    <p><strong>M</strong> kommt nicht vor.</p>
+    <p>Die Wortlänge wählst du oben: 5 ist leicht, 8 ist für Experten. Ä, Ö und Ü sind eigene Buchstaben, ß schreibst du als SS.</p>
+    <p>Das <em>Wort des Tages</em> ist für alle gleich und wechselt um Mitternacht. Im Modus <em>Zufall</em> gibt es sofort ein neues Wort.</p>
+  </form>
+</dialog>
+
+<dialog id="dlg-stats" class="dialog" aria-labelledby="stats-title">
+  <form method="dialog" class="dialog__inner">
+    <header><h2 id="stats-title">Statistik</h2><button type="submit" class="icon-btn" aria-label="Schliessen">×</button></header>
+    <p class="muted" id="stats-sub"></p>
+    <dl class="stats" id="stats-grid"></dl>
+    <h3>Versuche</h3>
+    <ol class="dist" id="stats-dist"></ol>
+    <div class="result" id="result" hidden>
+      <p id="result-text"></p>
+      <div class="result__actions">
+        <button type="button" class="btn" id="btn-share">Ergebnis kopieren</button>
+        <button type="button" class="btn btn--ghost" id="btn-next">Neues Wort</button>
+      </div>
+      <p class="muted" id="result-next"></p>
+    </div>
+  </form>
+</dialog>
+
+<script src="words.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -8,3 +8,6 @@ dist/
 .env
 .env.*
 !.env.example
+
+# Lokale Claude-Konfiguration
+.claude/
