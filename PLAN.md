@@ -16,7 +16,24 @@ die Wortlänge ist wählbar. Leicht 5, Mittel 6, Schwer 7, Experte 8 Buchstaben.
   wie bei den meisten deutschen Wordle-Varianten.
 - Statistik je Länge im `localStorage`: gespielt, gewonnen, Serie, beste Serie,
   Verteilung über die Versuche. Ergebnis als Kästchen-Text kopierbar.
-- Ein angefangenes Tageswort bleibt beim Neuladen erhalten.
+- Ein Tageswort bleibt bis Mitternacht so, wie es steht: angefangen, gelöst
+  oder verloren. Wechsel von Länge, Modus oder Tab setzt es nicht zurück, und
+  jede Länge zählt pro Tag nur einmal in der Statistik.
+- Nach dem Ende ersetzt eine Endkarte die Tastatur: Lösungswort, Tipps,
+  Serie, Ergebnis kopieren, Zufallswort, Countdown bis zum nächsten Tageswort
+  und die Längen, die heute noch offen sind. Gelöste Längen tragen im
+  Umschalter einen Punkt.
+
+## Tipps
+
+- Zwei pro Runde, ab dem ersten Versuch.
+- Bekannt ist ein Buchstabe, wenn er grün oder gelb war oder per Tipp kam.
+- Weniger als die Hälfte der Buchstaben bekannt: Der Tipp nennt einen
+  weiteren Buchstaben, der im Wort steckt (auf der Tastatur gelb).
+- Ab der Hälfte: Der Tipp nennt eine Stelle, bei 7 und 8 Buchstaben zwei
+  Stellen. Sie erscheinen als blasse grüne Vorgabe in der aktuellen Reihe.
+- Der letzte offene Buchstabe wird nie verraten.
+- Tipps stehen im geteilten Ergebnis.
 
 ## Wörter
 

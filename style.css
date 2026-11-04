@@ -148,9 +148,9 @@ main {
 .tile--correct { background: var(--correct); }
 .tile--present { background: var(--present); }
 .tile--absent { background: var(--absent); }
-.tile--reveal { animation: flip 520ms ease both; animation-delay: calc(var(--i) * 170ms); }
+.tile--reveal { animation: flip 520ms ease backwards; animation-delay: calc(var(--i) * 170ms); }
 .row--shake { animation: shake 420ms ease; }
-.row--win .tile { animation: hop 480ms ease both; animation-delay: calc(var(--i) * 70ms); }
+.row--win .tile { animation: hop 480ms ease; animation-delay: calc(var(--i) * 70ms); }
 
 @keyframes pop { 50% { transform: scale(1.08); } }
 @keyframes flip {
@@ -243,3 +243,81 @@ main {
 
 /* Gewähltes Segment ohne Trennlinie daneben */
 .segment label:has(:checked), .segment label:has(:checked) + label { border-left-color: var(--ink); }
+
+/* Tipps */
+.hintbar {
+  width: 100%; display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; min-height: 36px; margin: 0 0 6px;
+}
+.hintbar .toast { margin: 0; text-align: left; flex: 1; }
+.hint {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 10px 6px 9px; border-radius: var(--radius);
+  border: 1px solid var(--line); background: transparent; cursor: pointer;
+  font-size: 13px; font-weight: 600; white-space: nowrap;
+}
+.hint svg { fill: var(--present); }
+.hint:hover:not(:disabled) { background: var(--paper-2); }
+.hint:disabled { cursor: default; color: var(--ink-2); }
+.hint:disabled svg { fill: var(--ink-2); }
+.hint__count {
+  font-variant-numeric: tabular-nums; font-weight: 500; color: var(--ink-2);
+  padding-left: 8px; border-left: 1px solid var(--line);
+}
+.hint:focus-visible, .chip:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.hints {
+  width: 100%; list-style: none; margin: 0 0 10px; padding: 0;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.hints:empty { display: none; }
+.hints li {
+  font-size: 14px; padding: 6px 10px; border-left: 3px solid var(--present);
+  background: var(--paper-2); border-radius: 0 var(--radius) var(--radius) 0;
+}
+.tile[data-ghost]::after {
+  content: attr(data-ghost); color: var(--correct); opacity: 0.55;
+}
+.tile[data-ghost] { border-style: dashed; border-color: var(--correct); }
+
+/* Endkarte statt Tastatur */
+.endcard {
+  width: 100%; margin: 4px 0 18px; padding: 18px 18px 16px;
+  border: 1px solid var(--line); border-radius: 6px; background: var(--paper-2);
+  text-align: center;
+}
+.endcard[hidden], .keyboard[hidden], .hint[hidden] { display: none; }
+.endcard__kicker {
+  margin: 0; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-2); font-weight: 600;
+}
+.endcard__word {
+  margin: 6px 0 2px; font-family: var(--font-serif); font-size: 34px; letter-spacing: 0.12em; line-height: 1.1;
+}
+.endcard__meta { margin: 0 0 12px; font-size: 13px; color: var(--ink-2); min-height: 1em; }
+.endcard__actions { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+.endcard__next { margin: 14px 0 0; font-size: 13px; color: var(--ink-2); }
+.endcard__next time { font-variant-numeric: tabular-nums; color: var(--ink); font-weight: 600; }
+.endcard__next[hidden] { display: none; }
+.endcard__lengths {
+  margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line);
+  display: flex; gap: 6px; justify-content: center; align-items: center; flex-wrap: wrap; font-size: 13px; color: var(--ink-2);
+}
+.endcard__lengths[hidden] { display: none; }
+.chip {
+  padding: 5px 10px; border-radius: 999px; border: 1px solid var(--line);
+  background: var(--paper); cursor: pointer; font-size: 13px; font-weight: 600;
+}
+.chip:hover { border-color: var(--ink-2); }
+
+/* Gelöste Längen heute */
+.segment label.is-won span::after, .segment label.is-lost span::after {
+  content: ""; position: absolute; top: 5px; right: 6px; width: 6px; height: 6px; border-radius: 50%;
+}
+.segment label.is-won span::after { background: var(--correct); }
+.segment label.is-lost span::after { background: var(--absent); }
+.segment span { position: relative; }
+#mode label.is-won span::after { display: none; }
+
+@media (max-width: 400px) {
+  .endcard__word { font-size: 28px; }
+  .btn { padding: 9px 12px; font-size: 13px; }
+}

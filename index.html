@@ -6,6 +6,7 @@
 <title>Wortl – Wörter raten mit 5 bis 8 Buchstaben</title>
 <meta name="description" content="Deutsches Wortratespiel: Errate das Wort in sechs Versuchen. Wortlänge von 5 bis 8 Buchstaben wählbar.">
 <meta name="color-scheme" content="light dark">
+<meta name="darkreader-lock">
 <meta name="theme-color" content="#f3efe6" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#15140f" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%232f6b4a'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' text-anchor='middle' fill='%23f3efe6'%3EW%3C/text%3E%3C/svg%3E">
@@ -47,7 +48,27 @@
 
   <div class="board" id="board" role="grid" aria-label="Spielfeld"></div>
 
-  <p class="toast" id="toast" role="status" aria-live="polite"></p>
+  <div class="hintbar">
+    <p class="toast" id="toast" role="status" aria-live="polite"></p>
+    <button type="button" class="hint" id="btn-hint" disabled>
+      <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 1a4 4 0 0 0-2.4 7.2V10h4.8V8.2A4 4 0 0 0 7 1zM5 11.5h4V13H5z"/></svg>
+      <span class="hint__label">Tipp</span><span class="hint__count">2/2</span>
+    </button>
+  </div>
+  <ol class="hints" id="hints" aria-label="Deine Tipps"></ol>
+
+  <section class="endcard" id="endcard" aria-labelledby="end-title" hidden>
+    <p class="endcard__kicker" id="end-title"></p>
+    <p class="endcard__word" id="end-word"></p>
+    <p class="endcard__meta" id="end-meta"></p>
+    <div class="endcard__actions">
+      <button type="button" class="btn" id="end-share">Ergebnis kopieren</button>
+      <button type="button" class="btn btn--ghost" id="end-random">Zufallswort spielen</button>
+      <button type="button" class="btn btn--ghost" id="end-stats">Statistik</button>
+    </div>
+    <p class="endcard__next" id="end-next-wrap">Nächstes Wort des Tages in <time id="end-clock">--:--:--</time></p>
+    <div class="endcard__lengths" id="end-lengths" hidden></div>
+  </section>
 
   <div class="keyboard" id="keyboard" aria-label="Bildschirmtastatur"></div>
 
@@ -82,7 +103,9 @@
     </div>
     <p><strong>M</strong> kommt nicht vor.</p>
     <p>Die Wortlänge wählst du oben: 5 ist leicht, 8 ist für Experten. Ä, Ö und Ü sind eigene Buchstaben, ß schreibst du als SS.</p>
-    <p>Das <em>Wort des Tages</em> ist für alle gleich und wechselt um Mitternacht. Im Modus <em>Zufall</em> gibt es sofort ein neues Wort.</p>
+    <h3>Tipps</h3>
+    <p>Festgefahren? Ab dem ersten Versuch gibt es zwei Tipps pro Runde. Kennst du noch weniger als die Hälfte der Buchstaben, verrät der Tipp einen weiteren Buchstaben aus dem Wort. Ab der Hälfte zeigt er eine Stelle, bei 7 und 8 Buchstaben zwei Stellen. Tipps stehen im geteilten Ergebnis.</p>
+    <p>Das <em>Wort des Tages</em> ist für alle gleich und wechselt um Mitternacht. Gelöst bleibt gelöst, bis dahin zählt jede Länge einmal in der Statistik. Im Modus <em>Zufall</em> gibt es sofort ein neues Wort.</p>
   </form>
 </dialog>
 
@@ -93,14 +116,6 @@
     <dl class="stats" id="stats-grid"></dl>
     <h3>Versuche</h3>
     <ol class="dist" id="stats-dist"></ol>
-    <div class="result" id="result" hidden>
-      <p id="result-text"></p>
-      <div class="result__actions">
-        <button type="button" class="btn" id="btn-share">Ergebnis kopieren</button>
-        <button type="button" class="btn btn--ghost" id="btn-next">Neues Wort</button>
-      </div>
-      <p class="muted" id="result-next"></p>
-    </div>
   </form>
 </dialog>
 
